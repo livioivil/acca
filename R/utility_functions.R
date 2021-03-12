@@ -20,15 +20,22 @@ NULL
 
 
 print.acca <- function(x, ...) {
-  cat("Canonical Correlation Analysis:")
+  cat("a Canonical Correlation Analysis")
   cat("
-      n observations: ", nrow(x$data$X))
+              n obs: ", nrow(x$data$X))
   cat("
       n X variables: ", ncol(x$data$X))
   cat("
       n Y variables: ", ncol(x$data$Y))
   cat("
-      Correlations: ",x$cor)
+       Correlations: ",sprintf("%.3f",x$cor))
+  if(!is.null(x$p_values)){
+  cat("
+           p-values: ",sprintf("%.3f",x$p_values))
+  cat("
+        n perms (B): ",attributes(x$p_values)$B)
+    
+  }
 }
 
 #' summary.acca summary method for a acca object.
