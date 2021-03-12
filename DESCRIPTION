@@ -1,0 +1,9 @@
+Package: acca
+Version: 0.1
+Date: 2020-03-12
+Title: a canonical correlation analysis
+Author: Livio Finos
+Maintainer: livio finos <livio.finos@unipd.it>
+Description: a canonical correlation analysis
+License: GPL (>= 2)
+RoxygenNote: 7.1.1
