@@ -18,11 +18,11 @@ cc_inference <- function(mod,B=100,alpha=.5,numb_cc=NULL,resamp_type="sign-flip"
 ####################
   if(resamp_type=="sign-flip"){
     .permute <- function(X,Qx,nred){
-      t(Qy*(1-2*rbinom(nred,1,.5))) %*%Qy%*%X
+      t(Qy*(1-2*rbinom(nred,1,.5))) %*%Qy%*%mod$data$X
     }
   } else if(resamp_type=="permutation"){
     .permute <- function(X,Qx,nred){
-      t(Qy[sample(nred),]) %*%Qy%*%X
+      t(Qy[sample(nred),]) %*%Qy%*%mod$data$X
     }
   }
    

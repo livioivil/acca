@@ -92,8 +92,8 @@ as_named_matrix <- function(Y,root_name="V"){
   ### rifare qui: basta X'scores e riscalare
   corr.X.xscores = cor(res$data$X, xscores, use = "pairwise")
   corr.Y.xscores = cor(res$data$Y, xscores, use = "pairwise")
-  corr.X.yscores = cor(X, yscores, use = "pairwise")
-  corr.Y.yscores = cor(Y, yscores, use = "pairwise")
+  corr.X.yscores = cor(res$data$X, yscores, use = "pairwise")
+  corr.Y.yscores = cor(res$data$Y, yscores, use = "pairwise")
   
   res$scores=list(xscores = xscores, yscores = yscores)
   res$corr= list( corr.X.xscores = corr.X.xscores, 
