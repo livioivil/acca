@@ -4,16 +4,25 @@
 \alias{cc_inference}
 \title{cc_inference}
 \usage{
-cc_inference(mod, nperms = 100, alpha = 0.5, numb_cc = NULL)
+cc_inference(
+  mod,
+  B = 100,
+  alpha_max = 0.5,
+  numb_cc = NULL,
+  resamp_type = "sign-flip",
+  orthogonalize_residuals = TRUE
+)
 }
 \arguments{
 \item{mod}{an \code{acca} object.}
 
-\item{nperms}{(\code{100} by default)}
+\item{B}{(\code{100} by default) number of random sampling}
 
-\item{alpha}{(\code{0.5} by default).}
+\item{alpha_max}{stop if p-value > alpha_max (\code{alpha_max=0.5} by default).}
 
-\item{numb_cc}{(\code{=NULL} by default).}
+\item{numb_cc}{stop after computing p-values for the first \code{numb_cc} are computed(\code{numb_cc=NULL} - the default - means compute all).}
+
+\item{resamp_type}{\code{"sign-flip"} (by default) or \code{"permutation"}}
 }
 \description{
 compute p-values

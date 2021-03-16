@@ -42,6 +42,23 @@ mod
 
 ggbiplot2(mod)
 
+
+L=matrix(rnorm(10),10,1)
+X=matrix(rnorm(20),10,2)
+Y=matrix(rnorm(30),10,3)
+X[,1]=X[,1]+2*L
+Y[,1]=Y[,1]+2*L
+
+mod=cc(X,Y)
+mod
+
+modcc=CCA::cc(X,Y)
+modcc$cor
+
+modcc$xcoef
+mod$xcoef
+
+plot(mod$scores$xscores[,1],modcc$scores$xscores[,1])
 ```
 
 

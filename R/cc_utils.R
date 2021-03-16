@@ -1,21 +1,14 @@
 ###############
 # if x and y are lists with svd elements, it is assumed they have been scaled before svd 
 
-.cc_core <- function(X,Y,numb_cc=NULL){
+.cc_core <- function(svx,svy,numb_cc=NULL){
   ############### CCA
-  if(!.is_svd(X)){
-    X=scale(X,scale=FALSE)
-    svx=svd(X);
-  } else svx=X 
-  
-  if(!.is_svd(X)){
-    Y=scale(Y,scale=FALSE)
-    svy=svd(Y);
-  } else svy=Y
 
-  if(is.null(numb_cc)) numb_cc=min(length(svx$d),length(svy$d))
+  numb_cc=min(numb_cc,length(svx$d),length(svy$d))
   
   ###S11^{-1/2} S12 S22^{-1/2} = V1 LDR' V2' = UDV'
+  
+  # irlba::irlba
   res=svd(t(svx$u)%*%svy$u,nu = numb_cc,nv = numb_cc);
   # res$d
   if(!is.null(res$u)){
@@ -31,6 +24,17 @@
   return(res)
 }
 
+####################
+.svd <- function(...){
+  sv=svd(...)
+  np=sv$d>1E-12
+  if(!all(np)){
+    sv$v=sv$v[,np]
+    svx$u=svx$u[,np]
+    svx$d=svx$d[np]
+  }
+  sv
+}
 
 #####################
 convert2dummies <- function(Y){
