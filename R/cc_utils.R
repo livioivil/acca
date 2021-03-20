@@ -1,28 +1,36 @@
 ###############
 # if x and y are lists with svd elements, it is assumed they have been scaled before svd 
-
-.cc_core <- function(svx,svy,numb_cc=NULL){
-  ############### CCA
-
-  numb_cc=min(numb_cc,length(svx$d),length(svy$d))
+.cc_core <- function(qx,qy,numb_cc){
   
-  ###S11^{-1/2} S12 S22^{-1/2} = V1 LDR' V2' = UDV'
-  
-  # irlba::irlba
-  res=svd(t(svx$u)%*%svy$u,nu = numb_cc,nv = numb_cc);
+  res <- .svd(qr.qty(qx, qr.Q(qy))[1L:qx$rank, ,drop = FALSE], 
+             numb_cc, numb_cc)
   # res$d
-  if(!is.null(res$u)){
-    res$u= svx$v%*%res$u
-    res$xcoef=res$u
-    res$u=NULL}
-  if(!is.null(res$v)){
-    res$v= svy$v%*%res$v
-    res$ycoef=res$v
-    res$v=NULL}
-  ###
   names(res)[1]="cor"
   return(res)
 }
+# 
+# .cc_core <- function(svx,svy,numb_cc=NULL){
+#   ############### CCA
+# 
+#   numb_cc=min(numb_cc,length(svx$d),length(svy$d))
+#   
+#   ###S11^{-1/2} S12 S22^{-1/2} = V1 LDR' V2' = UDV'
+#   
+#   # irlba::irlba
+#   res=svd(t(svx$u)%*%svy$u,nu = numb_cc,nv = numb_cc);
+#   # res$d
+#   if(!is.null(res$u)){
+#     res$u= svx$v%*%res$u
+#     res$xcoef=res$u
+#     res$u=NULL}
+#   if(!is.null(res$v)){
+#     res$v= svy$v%*%res$v
+#     res$ycoef=res$v
+#     res$v=NULL}
+#   ###
+#   names(res)[1]="cor"
+#   return(res)
+# }
 
 ####################
 .svd <- function(...){
@@ -87,12 +95,12 @@ as_named_matrix <- function(Y,root_name="V"){
 ##############
 .compute_stats <- function (res) 
 {
-  X.aux = scale(res$data$X, center = TRUE, scale = FALSE)
-  Y.aux = scale(res$data$Y, center = TRUE, scale = FALSE)
-  X.aux[is.na(X.aux)] = 0
-  Y.aux[is.na(Y.aux)] = 0
-  xscores = X.aux %*% res$xcoef
-  yscores = Y.aux %*% res$ycoef
+  # X.aux = scale(res$data$X, center = TRUE, scale = FALSE)
+  # Y.aux = scale(res$data$Y, center = TRUE, scale = FALSE)
+  # X.aux[is.na(X.aux)] = 0
+  # Y.aux[is.na(Y.aux)] = 0
+  xscores = res$data$X %*% res$xcoef
+  yscores = res$data$Y %*% res$ycoef
   ### rifare qui: basta X'scores e riscalare
   corr.X.xscores = cor(res$data$X, xscores, use = "pairwise")
   corr.Y.xscores = cor(res$data$Y, xscores, use = "pairwise")

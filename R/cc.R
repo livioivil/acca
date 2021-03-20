@@ -26,9 +26,12 @@ cc<-function (X,Y,Zx=1,Zy=Zx,numb_cc=NULL,fill.na=FALSE)
   Y=convert2dummies(Y)
   Y=as_named_matrix(Y,"Y")
   Y=fillnas(Y)
+  Y <- as.matrix(Y)
+  
   X=convert2dummies(X)
   X=as_named_matrix(X,"X")
   X=fillnas(X)
+  X <- as.matrix(X)
   
   if(!is.null(Zy))   {
     Zy=convert2dummies(Zy)
@@ -43,26 +46,50 @@ cc<-function (X,Y,Zx=1,Zy=Zx,numb_cc=NULL,fill.na=FALSE)
     X=residualize(X,Zx); #rm(Zx)
   }else X=scale(X,scale=FALSE)
   
-  
-  
   Xnames = dimnames(X)[[2]]
   Ynames = dimnames(Y)[[2]]
   ind.names = dimnames(X)[[1]]
   
   
   ###########################
-  svx=.svd(X);
-  svy=.svd(Y);
-
-  mod=.cc_core(svx,svy,numb_cc = numb_cc)
-
-  rownames(mod$xcoef)=colnames(X)
-  rownames(mod$ycoef)=colnames(Y)
-  colnames(mod$xcoef)=paste0("Cx",1:ncol(mod$xcoef))
-  colnames(mod$ycoef)=paste0("Cy",1:ncol(mod$ycoef))
-  mod$data=list(X=X,Y=Y,Zx=Zx,Zy=Zy)
+  if ((nr <- nrow(X)) != nrow(Y)) 
+    stop("unequal number of rows in 'cancor'")
+  ncx <- ncol(X)
+  ncy <- ncol(Y)
+  if (!nr || !ncx || !ncy) 
+    stop("dimension 0 in 'X' or 'Y'")
+  ###########################
+  qx <- qr(X)
+  qy <- qr(Y)
+  dx <- qx$rank
+  if (!dx) 
+    stop("'X' has rank 0")
+  dy <- qy$rank
+  if (!dy) 
+    stop("'Y' has rank 0")
   
-  mod=.compute_stats(mod)
+  numb_cc=min(numb_cc,dx,dy)
+  
+  ###################
+  mod <- .cc_core(qx,qy,numb_cc)
+  ####################
+  # compute coeff
+  if(TRUE){
+    mod$xcoef <- backsolve((qx$qr)[1L:dx, 1L:dx, drop = FALSE], mod$u[,1:numb_cc,drop = FALSE])
+    rownames(mod$xcoef) <- colnames(X)[qx$pivot][1L:dx]
+    mod$ycoef <- backsolve((qy$qr)[1L:dy, 1L:dy, drop = FALSE], mod$v[,1:numb_cc,drop = FALSE])
+    rownames(mod$ycoef) <- colnames(Y)[qy$pivot][1L:dy]
+    colnames(mod$xcoef)=paste0("Cx",1:ncol(mod$xcoef))
+    colnames(mod$ycoef)=paste0("Cy",1:ncol(mod$ycoef))
+  }
+  mod$u <- mod$v <- NULL
+
+  if(TRUE) mod$data=list(X=X,Y=Y,Zx=Zx,Zy=Zy)
+  
+  if(TRUE){
+    mod=.compute_stats(mod)
+  }
+  
   mod$call$cc=match.call()
   class(mod) <- c("acca", class(mod))
   return(mod)

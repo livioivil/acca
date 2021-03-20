@@ -4,14 +4,14 @@
 \alias{cc}
 \title{cc}
 \usage{
-cc(X, Y, Zx = NULL, Zy = Zx, numb_cc = NULL, fill.na = FALSE)
+cc(X, Y, Zx = 1, Zy = Zx, numb_cc = NULL, fill.na = FALSE)
 }
 \arguments{
 \item{X}{See \code{\link[CCA]{cc}} for a proper documentation.}
 
 \item{Y}{See \code{\link[CCA]{cc}} for a proper documentation.}
 
-\item{Zx}{(\code{=NULL} by default) covariates (i.e. nuisance) of \code{X}. If different from \code{NULL}, the \code{X} are residualized by \code{Zx} before entering \code{cc()}.}
+\item{Zx}{(\code{=NULL} by default) covariates (i.e. nuisance) of \code{X}. If different from \code{NULL}, the \code{X} are residualized by \code{Zx} before entering \code{cc()}. IMPORTANT: if Zx is not NULL, include the intercept (if appropriate!)}
 
 \item{Zy}{(\code{=Zx} by default) covariates of \code{Y}. Same use of \code{Zx}.}
 
