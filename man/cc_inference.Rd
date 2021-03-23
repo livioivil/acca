@@ -10,7 +10,7 @@ cc_inference(
   alpha_max = 0.5,
   numb_cc = NULL,
   resamp_type = "sign-flip",
-  orthogonalize_residuals = TRUE
+  light = FALSE
 )
 }
 \arguments{

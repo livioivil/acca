@@ -2,5 +2,6 @@
 
 S3method(print,acca)
 S3method(summary,acca)
+export(cc)
 export(cc_inference)
 export(ggbiplot2)

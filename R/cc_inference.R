@@ -7,7 +7,7 @@
 #'@param resamp_type \code{"sign-flip"} (by default) or \code{"permutation"}
 #'@export
 #'
-cc_inference <- function(mod,B=100, alpha_max=.5,numb_cc=NULL,resamp_type="sign-flip",orthogonalize_residuals=TRUE){
+cc_inference <- function(mod,B=100, alpha_max=.5,numb_cc=NULL,resamp_type="sign-flip",light=FALSE){
   mod$call$cc_inference=match.call()
   n=nrow(mod$data$X)
   resamp_type=match.arg(resamp_type,c("sign-flip","permutation"))
@@ -15,9 +15,9 @@ cc_inference <- function(mod,B=100, alpha_max=.5,numb_cc=NULL,resamp_type="sign-
   
   
   ####################
-  if(orthogonalize_residuals) {
+  if(!light) {
     mod=.cc_inference_orthogonal(mod,B, alpha_max,numb_cc,resamp_type)
-  } else   if(!orthogonalize_residuals) {
+  } else   if(light) {
     mod=.cc_inference_residuals(mod,B, alpha_max,numb_cc,resamp_type)
   }
   ##################
@@ -101,7 +101,7 @@ cc_inference <- function(mod,B=100, alpha_max=.5,numb_cc=NULL,resamp_type="sign-
   }
   
   perm_and_cc=function(X,Y,n){
-    ccp=.cc_core(.permute(X,n), Y,numb_cc = 0)
+    ccp=.cc_core(.permute(X,n), Y,numb_cc =  0)
     ccp$cor[1]
   }
   

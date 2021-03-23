@@ -1,8 +1,10 @@
 ###############
 # if x and y are lists with svd elements, it is assumed they have been scaled before svd 
 .cc_core <- function(qx,qy,numb_cc){
+  if(!is(qx,"qr")) qx=qr(qx)
+  if(!is(qy,"qr")) qy=qr(qy)
   
-  res <- .svd(qr.qty(qx, qr.Q(qy))[1L:qx$rank, ,drop = FALSE], 
+  res <- svd(qr.qty(qx, qr.Q(qy))[1L:qx$rank, ,drop = FALSE], 
              numb_cc, numb_cc)
   # res$d
   names(res)[1]="cor"
@@ -38,15 +40,15 @@
   np=sv$d>1E-12
   if(!all(np)){
     sv$v=sv$v[,np]
-    svx$u=svx$u[,np]
-    svx$d=svx$d[np]
+    sv$u=sv$u[,np]
+    sv$d=sv$d[np]
   }
   sv
 }
 
 #####################
 convert2dummies <- function(Y){
-  if(any(apply(Y,2,is.character))){
+  if(any(sapply(Y,is.character))){
     all_levs=apply(Y,1,paste,collapse = ":")
     all_levs=factor(all_levs)
     # contrasts(all_levs)<- contr.sum(nlevels(all_levs))

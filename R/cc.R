@@ -1,12 +1,13 @@
-#'cc
+#'@title cc
 #'@description Very similar \code{cc()} of package \code{CCA}, but 1) it allows for X and Y to be rank deficient, 2) it allows for categorical variables and 3) it allows for covariates, 4) more (see below).
 #'@param X See \code{\link[CCA]{cc}} for a proper documentation.
 #'@param Y See \code{\link[CCA]{cc}} for a proper documentation.
 #'@param Zx (\code{=NULL} by default) covariates (i.e. nuisance) of \code{X}. If different from \code{NULL}, the \code{X} are residualized by \code{Zx} before entering \code{cc()}. IMPORTANT: if Zx is not NULL, include the intercept (if appropriate!)
 #'@param Zy (\code{=Zx} by default) covariates of \code{Y}. Same use of \code{Zx}.
 #'@param fill.na replace \code{NA} in \code{X} and \code{Y} with column mean before enter \code{cc()}.
+#'@param numb_cc number of (pairs of) canonical correlations to be extracted 
 #'@return The returned list is the same list as returned by \code{\link[CCA]{cc}}, while it also contains \code{prop_expl_var} which is a \code{list} reporting the proportion of explained (total) variance of \code{X} and \code{Y} by each component (i.e. mode).
-#'@export
+#'
 #'
 #'L=matrix(rnorm(10),10,1)
 #'X=matrix(rnorm(50),10,5)
@@ -19,30 +20,31 @@
 #'mod
 #'
 #'ggbiplot2(mod)
+#'
+#'@export cc
 
-
-cc<-function (X,Y,Zx=1,Zy=Zx,numb_cc=NULL,fill.na=FALSE) 
+cc <- function (X,Y,Zx=NULL,Zy=Zx,numb_cc=NULL,fill.na=FALSE) 
 {
-  Y=convert2dummies(Y)
-  Y=as_named_matrix(Y,"Y")
-  Y=fillnas(Y)
+  # Y=convert2dummies(Y)
+  # Y=as_named_matrix(Y,"Y")
+  # Y=fillnas(Y)
   Y <- as.matrix(Y)
   
-  X=convert2dummies(X)
-  X=as_named_matrix(X,"X")
-  X=fillnas(X)
+  # X=convert2dummies(X)
+  # X=as_named_matrix(X,"X")
+  # X=fillnas(X)
   X <- as.matrix(X)
   
   if(!is.null(Zy))   {
-    Zy=convert2dummies(Zy)
-    Zy=as_named_matrix(Zy,"Zy")
-    Zy=fillnas(Zy)
+    # Zy=convert2dummies(Zy)
+    # Zy=as_named_matrix(Zy,"Zy")
+    # Zy=fillnas(Zy)
     Y=residualize(Y,Zy); #rm(Zy)
   } else Y=scale(Y,scale=FALSE)
   if(!is.null(Zx))   {
-    Zx=convert2dummies(Zx)
-    Zx=as_named_matrix(Zx,"Zx")
-    Zx=fillnas(Zx)
+    # Zx=convert2dummies(Zx)
+    # Zx=as_named_matrix(Zx,"Zx")
+    # Zx=fillnas(Zx)
     X=residualize(X,Zx); #rm(Zx)
   }else X=scale(X,scale=FALSE)
   

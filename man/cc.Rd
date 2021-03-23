@@ -4,7 +4,7 @@
 \alias{cc}
 \title{cc}
 \usage{
-cc(X, Y, Zx = 1, Zy = Zx, numb_cc = NULL, fill.na = FALSE)
+cc(X, Y, Zx = NULL, Zy = Zx, numb_cc = NULL, fill.na = FALSE)
 }
 \arguments{
 \item{X}{See \code{\link[CCA]{cc}} for a proper documentation.}
@@ -15,10 +15,25 @@ cc(X, Y, Zx = 1, Zy = Zx, numb_cc = NULL, fill.na = FALSE)
 
 \item{Zy}{(\code{=Zx} by default) covariates of \code{Y}. Same use of \code{Zx}.}
 
+\item{numb_cc}{number of (pairs of) canonical correlations to be extracted}
+
 \item{fill.na}{replace \code{NA} in \code{X} and \code{Y} with column mean before enter \code{cc()}.}
 }
 \value{
 The returned list is the same list as returned by \code{\link[CCA]{cc}}, while it also contains \code{prop_expl_var} which is a \code{list} reporting the proportion of explained (total) variance of \code{X} and \code{Y} by each component (i.e. mode).
+
+
+L=matrix(rnorm(10),10,1)
+X=matrix(rnorm(50),10,5)
+Y=matrix(rnorm(70),10,7)
+Z=matrix(rnorm(20),10,2)
+
+X[,1]=X[,1]+2*L
+Y[,1]=Y[,1]+2*L
+mod=cc(X,Y,Z)
+mod
+
+ggbiplot2(mod)
 }
 \description{
 Very similar \code{cc()} of package \code{CCA}, but 1) it allows for X and Y to be rank deficient, 2) it allows for categorical variables and 3) it allows for covariates, 4) more (see below).
