@@ -7,7 +7,7 @@
 #'@param resamp_type \code{"sign-flip"} (by default) or \code{"permutation"}
 #'@export
 #'
-cc_inference <- function(mod,B=100, alpha_max=.5,numb_cc=NULL,resamp_type="sign-flip",light=FALSE){
+cc_inference <-  function(mod,B=100, alpha_max=.5,numb_cc=NULL,resamp_type="sign-flip",light=FALSE){
   mod$call$cc_inference=match.call()
   n=nrow(mod$data$X)
   resamp_type=match.arg(resamp_type,c("sign-flip","permutation"))
