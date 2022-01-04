@@ -1,10 +1,23 @@
 #'cc_inference
-#'@description compute p-values
+#'@description For each pairs of components, it computes p-values to test the null hypothesis of no correlation between components. The p-values are computed following the resampling method developed in Winkler, A. M., Renaud, O., Smith, S. M., & Nichols, T. E. (2020). Permutation inference for canonical correlation analysis. NeuroImage, 220, 117065. https://doi.org/10.1016/j.neuroimage.2020.117065.
 #'@param mod an \code{acca} object.
 #'@param B (\code{100} by default) number of random sampling
 #'@param alpha_max stop if p-value > alpha_max (\code{alpha_max=0.5} by default).
 #'@param numb_cc stop after computing p-values for the first \code{numb_cc} are computed(\code{numb_cc=NULL} - the default - means compute all).
 #'@param resamp_type \code{"sign-flip"} (by default) or \code{"permutation"}
+#'@param light If \code{TRUE} the orthogonalization of the residuals of the projection on Z is not performed. For large sample size the two methods tend to overlap. 
+#' @examples
+#' set.seed(1)
+#' X=matrix(rnorm(500),100,5)
+#' Y=matrix(rnorm(700),100,7)
+#' Z=matrix(rnorm(200),100,2)
+#' mod=cc(X,Y,Z)
+#' mod
+#' 
+#' ccbiplot(mod)
+#' 
+#' mod=cc_inference(mod, B = 100, numb_cc = 3)
+#' mod
 #'@export
 #'
 cc_inference <-  function(mod,B=100, alpha_max=.5,numb_cc=NULL,resamp_type="sign-flip",light=FALSE){

@@ -1,9 +1,15 @@
 Package: acca
 Version: 0.1
-Date: 2020-03-12
-Title: a canonical correlation analysis
+Date: 2022-01-01
+Title: a Canonical Correlation Analysis (acca)
 Author: Livio Finos
 Maintainer: livio finos <livio.finos@unipd.it>
-Description: a canonical correlation analysis
+Description: It performs Canonical Correlation Analysis and provides inferential guaranties on the correlation components. The p-values are computed following the resampling method developed in Winkler, A. M., Renaud, O., Smith, S. M., & Nichols, T. E. (2020). Permutation inference for canonical correlation analysis. NeuroImage, 220, 117065. https://doi.org/10.1016/j.neuroimage.2020.117065. Furthermore, it provides plotting tools to visualize the results.
+Encoding: UTF-8
 License: GPL (>= 2)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
+Imports: 
+	methods, 
+	stats,
+	ggplot2,
+	plyr

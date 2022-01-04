@@ -1,7 +1,7 @@
 #'@title cc
-#'@description Very similar \code{cc()} of package \code{CCA}, but 1) it allows for X and Y to be rank deficient, 2) it allows for categorical variables and 3) it allows for covariates, 4) more (see below).
-#'@param X See \code{\link[CCA]{cc}} for a proper documentation.
-#'@param Y See \code{\link[CCA]{cc}} for a proper documentation.
+#'@description Very similar \code{cancor()} of package \code{stats}, but 1) it allows for X and Y to be rank deficient, 2) it allows for categorical variables and 3) it allows for covariates, 4) more (see below).
+#'@param X See \code{x} in \code{\link[stats]{cancor}} for a proper documentation.
+#'@param Y See \code{y} in \code{\link[stats]{cancor}} for a proper documentation.
 #'@param Zx (\code{=NULL} by default) covariates (i.e. nuisance) of \code{X}. If different from \code{NULL}, the \code{X} are residualized by \code{Zx} before entering \code{cc()}. IMPORTANT: if Zx is not NULL, include the intercept (if appropriate!)
 #'@param Zy (\code{=Zx} by default) covariates of \code{Y}. Same use of \code{Zx}.
 #'@param fill.na replace \code{NA} in \code{X} and \code{Y} with column mean before enter \code{cc()}.
@@ -19,33 +19,33 @@
 #'mod=cc(X,Y,Z)
 #'mod
 #'
-#'ggbiplot2(mod)
+#'ccbiplot(mod)
 #'
 #'@export cc
 
 cc <- function (X,Y,Zx=NULL,Zy=Zx,numb_cc=NULL,fill.na=FALSE) 
 {
-  # Y=convert2dummies(Y)
-  # Y=as_named_matrix(Y,"Y")
-  # Y=fillnas(Y)
+  Y=convert2dummies(Y)
+  Y=as_named_matrix(Y,"Y")
+  Y=fillnas(Y)
   Y <- as.matrix(Y)
   
-  # X=convert2dummies(X)
-  # X=as_named_matrix(X,"X")
-  # X=fillnas(X)
+  X=convert2dummies(X)
+  X=as_named_matrix(X,"X")
+  X=fillnas(X)
   X <- as.matrix(X)
   
   if(!is.null(Zy))   {
-    # Zy=convert2dummies(Zy)
-    # Zy=as_named_matrix(Zy,"Zy")
-    # Zy=fillnas(Zy)
-    Y=residualize(Y,Zy); #rm(Zy)
+    Zy=convert2dummies(Zy)
+    Zy=as_named_matrix(Zy,"Zy")
+    Zy=fillnas(Zy)
+    Y=residualize(Y,Zy); rm(Zy)
   } else Y=scale(Y,scale=FALSE)
   if(!is.null(Zx))   {
-    # Zx=convert2dummies(Zx)
-    # Zx=as_named_matrix(Zx,"Zx")
-    # Zx=fillnas(Zx)
-    X=residualize(X,Zx); #rm(Zx)
+    Zx=convert2dummies(Zx)
+    Zx=as_named_matrix(Zx,"Zx")
+    Zx=fillnas(Zx)
+    X=residualize(X,Zx); rm(Zx)
   }else X=scale(X,scale=FALSE)
   
   Xnames = dimnames(X)[[2]]
@@ -70,6 +70,19 @@ cc <- function (X,Y,Zx=NULL,Zy=Zx,numb_cc=NULL,fill.na=FALSE)
   if (!dy) 
     stop("'Y' has rank 0")
   
+  if(dx<ncol(X)){
+    svx=svd(X,nu = dx,nv = dx)
+    X=svx$u
+    svx$u=NULL
+    qx <- qr(X)
+  } else svx=NULL
+  if(dy<ncol(Y)){
+    svy=svd(Y,nu = dx,nv = dx)
+    Y=svy$u
+    svy$u=NULL
+    qy <- qr(Y)
+  } else svy=NULL
+  
   numb_cc=min(numb_cc,dx,dy)
   
   ###################
@@ -86,10 +99,10 @@ cc <- function (X,Y,Zx=NULL,Zy=Zx,numb_cc=NULL,fill.na=FALSE)
   }
   mod$u <- mod$v <- NULL
 
-  if(TRUE) mod$data=list(X=X,Y=Y,Zx=Zx,Zy=Zy)
+  if(TRUE) mod$data=list(X=X,Y=Y)
   
   if(TRUE){
-    mod=.compute_stats(mod)
+    mod=.compute_stats(mod,svx,svy)
   }
   
   mod$call$cc=match.call()

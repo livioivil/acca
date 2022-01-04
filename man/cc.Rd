@@ -33,7 +33,7 @@ Y[,1]=Y[,1]+2*L
 mod=cc(X,Y,Z)
 mod
 
-ggbiplot2(mod)
+ccbiplot(mod)
 }
 \description{
 Very similar \code{cc()} of package \code{CCA}, but 1) it allows for X and Y to be rank deficient, 2) it allows for categorical variables and 3) it allows for covariates, 4) more (see below).
