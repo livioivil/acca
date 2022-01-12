@@ -7,9 +7,9 @@
 cc(X, Y, Zx = NULL, Zy = Zx, numb_cc = NULL, fill.na = FALSE)
 }
 \arguments{
-\item{X}{See \code{\link[CCA]{cc}} for a proper documentation.}
+\item{X}{See \code{x} in \code{\link[stats]{cancor}} for a proper documentation.}
 
-\item{Y}{See \code{\link[CCA]{cc}} for a proper documentation.}
+\item{Y}{See \code{y} in \code{\link[stats]{cancor}} for a proper documentation.}
 
 \item{Zx}{(\code{=NULL} by default) covariates (i.e. nuisance) of \code{X}. If different from \code{NULL}, the \code{X} are residualized by \code{Zx} before entering \code{cc()}. IMPORTANT: if Zx is not NULL, include the intercept (if appropriate!)}
 
@@ -20,7 +20,7 @@ cc(X, Y, Zx = NULL, Zy = Zx, numb_cc = NULL, fill.na = FALSE)
 \item{fill.na}{replace \code{NA} in \code{X} and \code{Y} with column mean before enter \code{cc()}.}
 }
 \value{
-The returned list is the same list as returned by \code{\link[CCA]{cc}}, while it also contains \code{prop_expl_var} which is a \code{list} reporting the proportion of explained (total) variance of \code{X} and \code{Y} by each component (i.e. mode).
+It returns an \code{acca} object. This object contains the same list as returned by \code{\link[CCA]{cc}}, while it also contains \code{prop_expl_var} which is a \code{list} reporting the proportion of explained (total) variance of \code{X} and \code{Y} by each component (i.e. mode).
 
 
 L=matrix(rnorm(10),10,1)
@@ -36,5 +36,5 @@ mod
 ccbiplot(mod)
 }
 \description{
-Very similar \code{cc()} of package \code{CCA}, but 1) it allows for X and Y to be rank deficient, 2) it allows for categorical variables and 3) it allows for covariates, 4) more (see below).
+Very similar \code{cancor()} of package \code{stats}, but 1) it allows for X and Y to be rank deficient, 2) it allows for categorical variables and 3) it allows for covariates, 4) more (see below).
 }

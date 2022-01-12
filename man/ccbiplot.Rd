@@ -71,6 +71,9 @@ ccbiplot(
 
 \item{...}{not used yet}
 }
+\value{
+It returns a \code{\link[ggplot2]{ggplot}} object.
+}
 \description{
 The function adapts the \code{ggbiplot::ggbiplot()} function to an \code{acca}-object.
 }

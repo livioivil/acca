@@ -19,21 +19,21 @@ NULL
 #' @export
 
 
-print.acca <- function(object, ...) {
+print.acca <- function(x, ...) {
   cat("a Canonical Correlation Analysis")
   cat("
-              n obs: ", nrow(object$data$X))
+              n obs: ", nrow(x$data$X))
   cat("
-      n X variables: ", ncol(object$data$X))
+      n X variables: ", ncol(x$data$X))
   cat("
-      n Y variables: ", ncol(object$data$Y))
+      n Y variables: ", ncol(x$data$Y))
   cat("
-       Correlations: ",sprintf("%.3f",object$cor))
-  if(!is.null(object$p_values)){
+       Correlations: ",sprintf("%.3f",x$cor))
+  if(!is.null(x$p_values)){
   cat("
-           p-values: ",sprintf("%.3f",object$p_values))
+           p-values: ",sprintf("%.3f",x$p_values))
   cat("
-        n perms (B): ",attributes(object$p_values)$B)
+        n perms (B): ",attributes(x$p_values)$B)
     
   }
 }

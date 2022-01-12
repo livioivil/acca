@@ -3,9 +3,9 @@
 \docType{package}
 \name{acca-package}
 \alias{acca-package}
-\title{A Canonical Correlation Analysis (acca)}
+\title{A Canonical Correlation Analysis with Inferential Guaranties}
 \description{
-The package performs Canonical Correlation Analysis and provides inferential guaranties on the correlation components. The p-values are computed following the resampling method developed in Winkler, A. M., Renaud, O., Smith, S. M., & Nichols, T. E. (2020). Permutation inference for canonical correlation analysis. NeuroImage, 220, 117065. https://doi.org/10.1016/j.neuroimage.2020.117065. Furthermore, the package provides plotting tools to visualize the results.
+It performs Canonical Correlation Analysis and provides inferential guaranties on the correlation components. The p-values are computed following the resampling method developed in Winkler, A. M., Renaud, O., Smith, S. M., & Nichols, T. E. (2020). Permutation inference for canonical correlation analysis. NeuroImage, <doi:10.1016/j.neuroimage.2020.117065>. Furthermore, it provides plotting tools to visualize the results.
 }
 \examples{
 set.seed(1)

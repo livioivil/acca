@@ -12,11 +12,11 @@
 \method{summary}{acca}(object, ...)
 }
 \arguments{
-\item{x}{a acca object}
+\item{x}{an \code{acca} object}
 
 \item{...}{additional arguments to be passed}
 
-\item{object}{a acca object}
+\item{object}{an \code{acca}}
 }
 \description{
 Methods for \code{acca} objects. 

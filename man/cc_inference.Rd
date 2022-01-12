@@ -26,6 +26,9 @@ cc_inference(
 
 \item{light}{If \code{TRUE} the orthogonalization of the residuals of the projection on Z is not performed. For large sample size the two methods tend to overlap.}
 }
+\value{
+It returns an   \code{acca} object (see \code{\link[acca]{cc}}) with p-values for each pair of the \code{numb_cc} components.
+}
 \description{
 For each pairs of components, it computes p-values to test the null hypothesis of no correlation between components. The p-values are computed following the resampling method developed in Winkler, A. M., Renaud, O., Smith, S. M., & Nichols, T. E. (2020). Permutation inference for canonical correlation analysis. NeuroImage, 220, 117065. https://doi.org/10.1016/j.neuroimage.2020.117065.
 }
