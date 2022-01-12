@@ -23,6 +23,7 @@
 #' @param ...             not used yet
 #' @import ggplot2
 #' @importFrom plyr ddply
+#' @return It returns a \code{\link[ggplot2]{ggplot}} object.
 #' @export
 #' 
 #' 

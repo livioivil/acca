@@ -6,7 +6,7 @@
 #'@param Zy (\code{=Zx} by default) covariates of \code{Y}. Same use of \code{Zx}.
 #'@param fill.na replace \code{NA} in \code{X} and \code{Y} with column mean before enter \code{cc()}.
 #'@param numb_cc number of (pairs of) canonical correlations to be extracted 
-#'@return The returned list is the same list as returned by \code{\link[CCA]{cc}}, while it also contains \code{prop_expl_var} which is a \code{list} reporting the proportion of explained (total) variance of \code{X} and \code{Y} by each component (i.e. mode).
+#'@return It returns an \code{acca} object. This object contains the same list as returned by \code{\link[CCA]{cc}}, while it also contains \code{prop_expl_var} which is a \code{list} reporting the proportion of explained (total) variance of \code{X} and \code{Y} by each component (i.e. mode).
 #'
 #'
 #'L=matrix(rnorm(10),10,1)

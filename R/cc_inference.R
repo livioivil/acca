@@ -6,6 +6,8 @@
 #'@param numb_cc stop after computing p-values for the first \code{numb_cc} are computed(\code{numb_cc=NULL} - the default - means compute all).
 #'@param resamp_type \code{"sign-flip"} (by default) or \code{"permutation"}
 #'@param light If \code{TRUE} the orthogonalization of the residuals of the projection on Z is not performed. For large sample size the two methods tend to overlap. 
+#'@return It returns an   \code{acca} object (see \code{\link[acca]{cc}}) with p-values for each pair of the \code{numb_cc} components.
+#'
 #' @examples
 #' set.seed(1)
 #' X=matrix(rnorm(500),100,5)
