@@ -77,7 +77,7 @@ cc <- function (X,Y,Zx=NULL,Zy=Zx,numb_cc=NULL,fill.na=FALSE)
     qx <- qr(X)
   } else svx=NULL
   if(dy<ncol(Y)){
-    svy=svd(Y,nu = dx,nv = dx)
+    svy=svd(Y,nu = dy,nv = dy)
     Y=svy$u
     svy$u=NULL
     qy <- qr(Y)

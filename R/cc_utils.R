@@ -78,12 +78,12 @@ as_named_matrix <- function(Y,root_name="V"){
 .get_explaned_variance_proportion <- function(Y,score){
   expl_var=sapply(1:ncol(score),function(i){
     sc=score[,i,drop=FALSE]
-    sc=sc/(t(score[,i,drop=FALSE])%*%score[,i,drop=FALSE])[,]
+    # proj=sc%*%solve(t(sc)%*%sc)%*%t(sc)
+    sc=sc/sqrt(sum(sc^2))
     proj= sc%*%t(sc)
     res=sum(diag((t(Y)%*%proj%*%Y)))
-    
   })
-  res=expl_var/(sum(diag((t(Y)%*%Y)))/(nrow(Y)-1))
+  res=expl_var/sum(colSums(Y^2))
   names(res)=colnames(score)
   res
 }
@@ -106,7 +106,7 @@ as_named_matrix <- function(Y,root_name="V"){
   yscores = res$data$Y %*% res$ycoef
   
   if(!is.null(svx)) res$data$X=res$data$X%*%diag(svx$d[1:ncol(res$data$X)])%*%t(svx$v)
-  if(!is.null(svy)) res$data$Y=res$data$Y%*%diag(svy$d[1:ncol(res$data$X)])%*%t(svy$v)
+  if(!is.null(svy)) res$data$Y=res$data$Y%*%diag(svy$d[1:ncol(res$data$Y)])%*%t(svy$v)
   ### rifare qui: basta X'scores e riscalare
   corr.X.xscores = cor(res$data$X, xscores, use = "pairwise")
   corr.Y.xscores = cor(res$data$Y, xscores, use = "pairwise")

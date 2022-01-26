@@ -142,7 +142,7 @@ ccbiplot<-
                                 size=1,shape=shapes), alpha = alpha,stroke = 2)+
           theme(legend.title=element_blank())+
           guides(colour = guide_legend("title"),
-                 size = FALSE,
+                 size = "none",
                  shape = guide_legend("title")) 
       }
       else {
@@ -166,12 +166,8 @@ ccbiplot<-
       g <- g + geom_path(data = ell, aes(color = groups, group = groups))
     }
     if (var.axes) {
-      # [TODO] via:
-      # df.v["time1","xvar"]=.1
-      # df.v["time5","xvar"]=-.2
-      # df.v["diameter","xvar"]=-.1
-      # df.v["volume","xvar"]=.0001
-      # df.v["Gill_cortisol","xvar"]=1
+      if(is.null(df.v$varname)) df.v$varname=1:nrow(df.v)
+
       g <- g + geom_text(data = df.v, aes(label = varname,
                                           x = xvar, y = yvar, 
                                           angle = angle, hjust = hjust), 
