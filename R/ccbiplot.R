@@ -175,5 +175,6 @@ ccbiplot<-
                          # rep(muted("blue"),n_vars[2])), 
                          size = varname.size)#,min.segment.length=1,segment.alpha=.1)
     }
+    g=g+theme(aspect.ratio = 1)
     return(g)
   }
