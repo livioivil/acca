@@ -50,7 +50,7 @@ ccbiplot<-
       v <- rbind(pcobj$corr$corr.X.xscores,
                  pcobj$corr$corr.Y.xscores)
       report="correlation"
-      n_vars=c(nrow(pcobj$xcoef),nrow(pcobj$ycoef))
+      n_vars=c(nrow(pcobj$corr$corr.X.xscores),nrow(pcobj$corr$corr.Y.xscores))
     }  else {
       stop("An object of class acca is expected! Nothingh done")
       return(NULL)

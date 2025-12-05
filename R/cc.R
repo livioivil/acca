@@ -72,16 +72,18 @@ cc <- function (X,Y,Zx=NULL,Zy=Zx,numb_cc=NULL,fill.na=FALSE)
   
   if(dx<ncol(X)){
     svx=svd(X,nu = dx,nv = dx)
+    Xorig=X
     X=svx$u
     svx$u=NULL
     qx <- qr(X)
-  } else svx=NULL
+  } else svx <- Xorig <- NULL
   if(dy<ncol(Y)){
     svy=svd(Y,nu = dy,nv = dy)
+    Yorig=Y
     Y=svy$u
     svy$u=NULL
     qy <- qr(Y)
-  } else svy=NULL
+  } else svy <- Yorig <-NULL
   
   numb_cc=min(numb_cc,dx,dy)
   
@@ -102,7 +104,7 @@ cc <- function (X,Y,Zx=NULL,Zy=Zx,numb_cc=NULL,fill.na=FALSE)
   if(TRUE) mod$data=list(X=X,Y=Y)
   
   if(TRUE){
-    mod=.compute_stats(mod,svx,svy)
+    mod=.compute_stats(mod,svx,svy,Xorig,Yorig)
   }
   
   mod$call$cc=match.call()

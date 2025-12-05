@@ -96,7 +96,7 @@ as_named_matrix <- function(Y,root_name="V"){
 }
 
 ##############
-.compute_stats <- function (res,svx,svy) 
+.compute_stats <- function (res,svx,svy, Xorig, Yorig) 
 {
   # X.aux = scale(res$data$X, center = TRUE, scale = FALSE)
   # Y.aux = scale(res$data$Y, center = TRUE, scale = FALSE)
@@ -105,8 +105,12 @@ as_named_matrix <- function(Y,root_name="V"){
   xscores = res$data$X %*% res$xcoef
   yscores = res$data$Y %*% res$ycoef
   
-  if(!is.null(svx)) res$data$X=res$data$X%*%diag(svx$d[1:ncol(res$data$X)])%*%t(svx$v)
-  if(!is.null(svy)) res$data$Y=res$data$Y%*%diag(svy$d[1:ncol(res$data$Y)])%*%t(svy$v)
+  if(!is.null(svx)) {
+    res$data$X=Xorig
+    }
+  if(!is.null(svy)) {
+    res$data$Y=Yorig
+    }
   ### rifare qui: basta X'scores e riscalare
   corr.X.xscores = cor(res$data$X, xscores, use = "pairwise")
   corr.Y.xscores = cor(res$data$Y, xscores, use = "pairwise")
