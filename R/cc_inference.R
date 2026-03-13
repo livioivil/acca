@@ -92,8 +92,8 @@ cc_inference <-  function(mod,B=100, alpha_max=.5,numb_cc=NULL,resamp_type="sign
   for(i in 1:numb_cc){
     mod$p_values[i]=(sum(replicate(B,perm_and_cc(X,Y,Qx,Qy,nredx,nredy))>=mod$cor[i])+1)/(B+1)
     if(mod$p_values[i]>= alpha_max) return(mod)
-    Qx=resid_matrix(Zx[,1:(n_nuisx+i)])
-    Qy=resid_matrix(Zy[,1:(n_nuisy+i)])
+    Qx=resid_matrix(Zx[,1:(n_nuisx+i), drop = FALSE])
+    Qy=resid_matrix(Zy[,1:(n_nuisy+i), drop = FALSE])
     X=Qx%*%mod$data$X
     Y=Qy%*%mod$data$Y
   }
