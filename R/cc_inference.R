@@ -22,18 +22,19 @@
 #' mod
 #'@export
 #'
-cc_inference <-  function(mod,B=100, alpha_max=.5,numb_cc=NULL,resamp_type="sign-flip",light=FALSE){
+cc_inference <-  function(mod,B=100, stat_test = "Roy", alpha_max=.5,numb_cc=NULL,resamp_type="sign-flip",light=FALSE){
   mod$call$cc_inference=match.call()
   n=nrow(mod$data$X)
   resamp_type=match.arg(resamp_type,c("sign-flip","permutation"))
+  stat_test=match.arg(stat_test,c("Roy","Wilks"))
   if(is.null(numb_cc)) numb_cc=length(mod$cor)
   
   
   ####################
   if(!light) {
-    mod=.cc_inference_orthogonal(mod,B, alpha_max,numb_cc,resamp_type)
+    mod=.cc_inference_orthogonal(mod,B,stat_test, alpha_max,numb_cc,resamp_type)
   } else   if(light) {
-    mod=.cc_inference_residuals(mod,B, alpha_max,numb_cc,resamp_type)
+    mod=.cc_inference_residuals(mod,B,stat_test, alpha_max,numb_cc,resamp_type)
   }
   ##################
 
@@ -43,7 +44,7 @@ cc_inference <-  function(mod,B=100, alpha_max=.5,numb_cc=NULL,resamp_type="sign
 
 #############
 
-.cc_inference_orthogonal <- function(mod,B, alpha_max,numb_cc,resamp_type){
+.cc_inference_orthogonal <- function(mod,B,stat_test, alpha_max,numb_cc,resamp_type){
   resid_matrix <- function(Zy)
     residualizing_matrix(Zy)$Q
   if(resamp_type=="sign-flip"){
@@ -55,7 +56,7 @@ cc_inference <-  function(mod,B=100, alpha_max=.5,numb_cc=NULL,resamp_type="sign
       t(Qx[sample(nred),]) %*%X # X=Qx%*%mod$data$X
     }
   }
-  perm_and_cc=function(X,Y,Qx,Qy,nredx,nredy){
+  perm_and_cc=function(X,Y,Qx,Qy,nredx,nredy,stat_test){
     ccp=.cc_core(.permute(X,Qx,nredx), .permute(Y,Qy,nredy),numb_cc = 0)
     ccp$cor[1]
   }
@@ -103,7 +104,7 @@ cc_inference <-  function(mod,B=100, alpha_max=.5,numb_cc=NULL,resamp_type="sign
 
 #############
 
-.cc_inference_residuals <- function(mod,B, alpha_max,numb_cc,resamp_type){
+.cc_inference_residuals <- function(mod,B,stat_test, alpha_max,numb_cc,resamp_type){
   n=nrow(mod$data$X)
   if(resamp_type=="sign-flip"){
     .permute <- function(X,n){
@@ -115,7 +116,7 @@ cc_inference <-  function(mod,B=100, alpha_max=.5,numb_cc=NULL,resamp_type="sign
     }
   }
   
-  perm_and_cc=function(X,Y,n){
+  perm_and_cc=function(X,Y,n,stat_test){
     ccp=.cc_core(.permute(X,n), Y,numb_cc =  0)
     ccp$cor[1]
   }

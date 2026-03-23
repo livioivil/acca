@@ -7,6 +7,7 @@
 cc_inference(
   mod,
   B = 100,
+  stat_test = "Roy",
   alpha_max = 0.5,
   numb_cc = NULL,
   resamp_type = "sign-flip",

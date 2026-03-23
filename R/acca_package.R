@@ -14,7 +14,7 @@
 #' mod=cc_inference(mod, B = 100, numb_cc = 3)
 #' mod
 #' 
-#' @docType package
+#' @docType _PACKAGE
 #'
 #' @author Livio Finos
 #' @name acca-package
