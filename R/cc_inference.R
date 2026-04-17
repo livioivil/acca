@@ -77,8 +77,8 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
     }
   }
   
-  perm_and_cc <- function(X,Y_fixed,Qx,nredx,stat_test){
-    ccp=.cc_core(.permute(X,Qx,nredx),Y_fixed,numb_cc = 0)
+  perm_and_cc <- function(X,Y,Qx,Qy,nredx,nredy,stat_test){
+    ccp=.cc_core(.permute(X,Qx,nredx),.permute(Y,Qy,nredy),numb_cc = 0)
     if (stat_test=="Roy") {
       return(ccp$cor[1]) 
     } else if (stat_test=="Wilks") {
@@ -119,8 +119,7 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
     } else if (stat_test=="Wilks") {
       obs_stat=-sum(log(1-mod$cor[i:length(mod$cor)]^2))
     }
-    Y_fixed =t(Qy)%*%Y
-    perm_stats=replicate(B,perm_and_cc(X,Y_fixed,Qx,nredx,stat_test))
+    perm_stats=replicate(B,perm_and_cc(X,Y,Qx,Qy,nredx,nredy,stat_test))
     mod$p_values[i]=(sum(perm_stats >= obs_stat)+1)/(B+1)
     if(mod$p_values[i] >= alpha_max) return(mod)
     
@@ -128,7 +127,6 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
     Qy=resid_matrix(Zy[,1:(n_nuisy+i),drop=FALSE])
     X=Qx%*%mod$data$X
     Y=Qy%*%mod$data$Y
-    nredx = nrow(Qx)
   }
   
   return(mod)
