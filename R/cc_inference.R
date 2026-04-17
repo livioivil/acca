@@ -80,7 +80,7 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
   perm_and_cc <- function(X,Y,Qx,Qy,nredx,nredy,stat_test){
     ccp=.cc_core(.permute(X,Qx,nredx),.permute(Y,Qy,nredy),numb_cc = 0)
     if (stat_test=="Roy") {
-      return(ccp$cor[1]) 
+      return(ccp$cor[1])
     } else if (stat_test=="Wilks") {
       return(-sum(log(1-ccp$cor^2)))
     }
@@ -125,6 +125,8 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
     
     Qx=resid_matrix(Zx[,1:(n_nuisx+i),drop=FALSE])
     Qy=resid_matrix(Zy[,1:(n_nuisy+i),drop=FALSE])
+    nredx = nrow(Qx)
+    nredy = nrow(Qy)
     X=Qx%*%mod$data$X
     Y=Qy%*%mod$data$Y
   }
@@ -132,7 +134,7 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
   return(mod)
 }
 
-#############
+####################
 
 .cc_inference_residuals <- function(mod,B,stat_test,alpha_max,numb_cc,resamp_type){
   n=nrow(mod$data$X)
