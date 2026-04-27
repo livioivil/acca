@@ -91,7 +91,7 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
     X=mod$data$X
   } else {
     Qx=resid_matrix(mod$data$Zx)
-    X=Qx%*%mod$data$X
+    X=t(Qx)%*%mod$data$X
   }
   
   if(is.null(mod$data$Zy)) {
@@ -99,7 +99,7 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
     Y=mod$data$Y
   } else {
     Qy=resid_matrix(mod$data$Zy)
-    Y=Qy%*%mod$data$Y
+    Y=t(Qy)%*%mod$data$Y
   }
   
   nredx=nrow(Qx)
