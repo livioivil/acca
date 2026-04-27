@@ -73,7 +73,7 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
     }
   }
   
-  perm_and_cc <- function(X,Y,Qx,Qy,nredx,nredy,stat_test){
+  perm_and_cc <- function(X,Y,Qx,nredx,stat_test){
     ccp=.cc_core(.permute(X,Qx,nredx),Y,numb_cc = 0)
     if (stat_test=="Roy") {
       return(ccp$cor[1])
