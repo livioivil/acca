@@ -98,8 +98,8 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
     Y=t(Qy)%*%mod$data$Y
   }
   
-  nredx=nrow(Qx)
-  nredy=nrow(Qy)
+  nredx=ncol(Qx)
+  nredy=ncol(Qy)
   
   mod$p_values=rep(1,length(mod$cor))
   attr(mod$p_values,which="B")=B
@@ -121,8 +121,8 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
     
     Qx=resid_matrix(Zx[,1:(n_nuisx+i),drop=FALSE])
     Qy=resid_matrix(Zy[,1:(n_nuisy+i),drop=FALSE])
-    nredx = nrow(Qx)
-    nredy = nrow(Qy)
+    nredx = ncol(Qx)
+    nredy = ncol(Qy)
     X=t(Qx)%*%mod$data$X
     Y=t(Qy)%*%mod$data$Y
   }
