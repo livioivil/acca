@@ -22,7 +22,7 @@
 #' mod
 #'@export
 #'
-cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,resamp_type="rotation",light=FALSE,test_type="resampling"){
+cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,resamp_type="sign-flip",light=FALSE,test_type="resampling"){
   mod$call$cc_inference=match.call()
   n=nrow(mod$data$X)
   resamp_type=match.arg(resamp_type,c("rotation","sign-flip","permutation"))
@@ -31,25 +31,21 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
     stat_test=match.arg(stat_test, c("Roy","Wilks")) 
   } else if(test_type=="parametric") {
     stat_test="Wilks"
+    light = FALSE
   }
   if(is.null(numb_cc)) numb_cc=length(mod$cor)
   
-  if(!light) {
-    if(test_type=="resampling"){
-      mod=.cc_inference_orthogonal(mod,B,stat_test,alpha_max,numb_cc,resamp_type)
-    }
-    else if(test_type=="parametric"){
-      mod=.cc_inference_parametric(mod,alpha_max,numb_cc)
-    }
-  } 
-  else if(light){
-    if(test_type=="resampling"){
+  if(test_type=="resampling") {
+    if(light){
       mod=.cc_inference_residuals(mod,B,stat_test,alpha_max,numb_cc,resamp_type)
     }
-    else if(test_type=="parametric"){
+    else if(!light){
+      mod=.cc_inference_orthogonal(mod,B,stat_test,alpha_max,numb_cc,resamp_type)
+    }
+  } 
+  else if(test_type=="parametric"){
       mod=.cc_inference_parametric(mod,alpha_max,numb_cc)
     }
-  }
   return(mod)
 }
 
