@@ -61,7 +61,7 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
       O = qr.Q(qr(M,LAPACK = FALSE))
       flipsign = which(rbinom(nred, 1, 0.5) == 1)
       if(length(flipsign) > 0) O[, flipsign] = -O[, flipsign]
-      Qx%*%O%*%X
+      Qx%*%O%*%X # X=t(Qx)%*%mod$data$X
     }
   } else if(resamp_type=="sign-flip") {
     .permute <- function(X,Qx,nred) {
@@ -141,7 +141,7 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
       O = qr.Q(qr(M, LAPACK = FALSE))
       flipsign = which(rbinom(n, 1, 0.5) == 1)
       if(length(flipsign) > 0) O[, flipsign] = -O[, flipsign]
-      O%*%X
+      O%*%X # X=IH%*%mod$data$X
     }
   } else if(resamp_type=="sign-flip") {
     .permute <- function(X,n) {
