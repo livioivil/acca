@@ -123,8 +123,8 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
     Qy=resid_matrix(Zy[,1:(n_nuisy+i),drop=FALSE])
     nredx = nrow(Qx)
     nredy = nrow(Qy)
-    X=Qx%*%mod$data$X
-    Y=Qy%*%mod$data$Y
+    X=t(Qx)%*%mod$data$X
+    Y=t(Qy)%*%mod$data$Y
   }
   
   return(mod)
