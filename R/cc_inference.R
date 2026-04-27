@@ -25,10 +25,10 @@
 cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,resamp_type="sign-flip",light=FALSE,test_type="resampling"){
   mod$call$cc_inference=match.call()
   n=nrow(mod$data$X)
-  resamp_type=match.arg(resamp_type,c("rotation","sign-flip","permutation"))
   test_type=match.arg(test_type,c("resampling","parametric"))
   if(test_type=="resampling") {
     stat_test=match.arg(stat_test, c("Roy","Wilks")) 
+    resamp_type=match.arg(resamp_type, c("rotation","sign-flip","permutation"))
   } else if(test_type=="parametric") {
     stat_test="Wilks"
     light = FALSE
