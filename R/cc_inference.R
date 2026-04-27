@@ -65,15 +65,15 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
       O = qr.Q(qr(M,LAPACK = FALSE))
       flipsign = which(rbinom(nred, 1, 0.5) == 1)
       if(length(flipsign) > 0) O[, flipsign] = -O[, flipsign]
-      t(O%*%Qx)%*%X
+      Q%*%O%*%X
     }
   } else if(resamp_type=="sign-flip") {
     .permute <- function(X,Qx,nred) {
-      t(Qx*(1-2*rbinom(nred,1,.5)))%*%X # X=Qx%*%mod$data$X
+      (1-2*rbinom(nred,1,.5))*Qx%*%X # X=t(Qx)%*%mod$data$X
     }
   } else if(resamp_type=="permutation") {
     .permute <- function(X,Qx,nred) {
-      t(Qx[sample(nred),])%*%X # X=Qx%*%mod$data$X
+      Qx[,sample(nred)]%*%X # X=t(Qx)%*%mod$data$X
     }
   }
   
