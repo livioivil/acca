@@ -148,7 +148,7 @@ residualizing_matrix <- function(Z,return_Q=TRUE)
       return(NA)
     }
     ei$vectors <- ei$vectors[, (ei$values > 0.1)]
-    res$Q=t(ei$vectors)
+    res$Q=ei$vectors
   }
   return(res)
 }
