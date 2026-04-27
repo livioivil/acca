@@ -61,7 +61,7 @@ cc_inference <-  function(mod,B=1000,stat_test="Roy",alpha_max=.5,numb_cc=NULL,r
       O = qr.Q(qr(M,LAPACK = FALSE))
       flipsign = which(rbinom(nred, 1, 0.5) == 1)
       if(length(flipsign) > 0) O[, flipsign] = -O[, flipsign]
-      Q%*%O%*%X
+      Qx%*%O%*%X
     }
   } else if(resamp_type=="sign-flip") {
     .permute <- function(X,Qx,nred) {
